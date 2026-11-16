@@ -1,0 +1,251 @@
+/* ---------- Basics ---------- */
+
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --border: #dfe1e6;
+  --text: #172b4d;
+  --muted: #5e6c84;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --danger: #c0392b;
+  --applied: #2563eb;
+  --interview: #d97706;
+  --offer: #16a34a;
+  --rejected: #6b7280;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+h1, h2, h3, p { margin: 0; }
+
+a { color: var(--primary); }
+
+.muted { color: var(--muted); }
+.center { text-align: center; }
+
+.error {
+  background: #fdecea;
+  color: var(--danger);
+  border: 1px solid #f5c2bd;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+/* ---------- Buttons and inputs ---------- */
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+button {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  cursor: pointer;
+}
+button:hover { background: #f0f1f4; }
+button:disabled { opacity: 0.6; cursor: default; }
+
+button.primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+button.primary:hover { background: var(--primary-dark); }
+
+button.link {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--primary);
+}
+button.link:hover { text-decoration: underline; }
+button.link.danger { color: var(--danger); }
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -1px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+label input, label select, label textarea { font-size: 15px; font-weight: 400; color: var(--text); }
+
+.hint { font-weight: 400; }
+
+/* ---------- Login and register pages ---------- */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+/* ---------- Board page ---------- */
+
+.page { max-width: 1200px; margin: 0 auto; padding: 0 20px 40px; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+.topbar h1 { font-size: 22px; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.toolbar .search { flex: 1; min-width: 200px; max-width: 360px; }
+.toolbar .primary { margin-left: auto; }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 160px;
+  padding: 12px;
+  background: #ebecf0;
+  border: 2px dashed transparent;
+  border-radius: 10px;
+}
+.column.drag-over { border-color: var(--primary); background: #e0e8fb; }
+
+.column h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.applied { background: var(--applied); }
+.dot.interview { background: var(--interview); }
+.dot.offer { background: var(--offer); }
+.dot.rejected { background: var(--rejected); }
+
+.count {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 12px;
+}
+
+.empty { color: var(--muted); font-size: 13px; text-align: center; padding: 16px 0; }
+
+/* ---------- Job card ---------- */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: grab;
+}
+.card h3 { font-size: 15px; overflow-wrap: anywhere; }
+.card .company { font-weight: 600; color: var(--muted); overflow-wrap: anywhere; }
+.card .meta { font-size: 13px; color: var(--muted); }
+.card .notes { font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 13px;
+}
+.card-actions select { width: auto; padding: 3px 6px; font-size: 13px; margin-right: auto; }
+
+/* ---------- Add / edit pop-up ---------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(9, 30, 66, 0.5);
+}
+
+.modal {
+  width: 100%;
+  max-width: 520px;
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  background: var(--surface);
+  border-radius: 10px;
+}
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ---------- Small screens: stack the columns ---------- */
+
+@media (max-width: 900px) {
+  .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .board { grid-template-columns: 1fr; }
+  .row { grid-template-columns: 1fr; }
+}
