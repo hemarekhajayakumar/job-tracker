@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
 import JobCard from '../components/JobCard.jsx'
@@ -12,9 +12,11 @@ export default function BoardPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
+  const [statusFilter, setStatusFilter] = useState('All')
   // null = form closed, {} = adding a new job, a job object = editing that job
   const [formJob, setFormJob] = useState(null)
   const [dragOverStatus, setDragOverStatus] = useState(null)
+  const searchRef = useRef(null)
 
   // Runs once when the page opens: load this user's jobs from the API.
   useEffect(() => {
@@ -22,6 +24,10 @@ export default function BoardPage() {
       .then(setJobs)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
+  }, [])
+// Runs once when the page opens: put the cursor in the search box.
+  useEffect(() => {
+    searchRef.current.focus()
   }, [])
 
   async function handleSave(fields) {
@@ -65,9 +71,17 @@ export default function BoardPage() {
 
   // Search matches company, role or location.
   const term = search.trim().toLowerCase()
-  const visibleJobs = jobs.filter((job) =>
-    [job.company, job.role, job.location ?? ''].some((text) => text.toLowerCase().includes(term)),
-  )
+
+
+  const visibleJobs = useMemo(() => {
+    return jobs.filter((job) => {
+      const matchesSearch = [job.company, job.role, job.location ?? '']
+        .some((text) => text.toLowerCase().includes(term))
+      const matchesStatus = statusFilter === 'All' || job.status === statusFilter
+      return matchesSearch && matchesStatus
+    })
+
+  }, [jobs, term, statusFilter])
 
   return (
     <div className="page">
@@ -83,10 +97,17 @@ export default function BoardPage() {
         <input
           className="search"
           type="search"
+          ref={searchRef}
           placeholder="Search company, role or location"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+        <select className="status-filter" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+          <option value="All">All</option>
+          {STATUSES.map((s) => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
         <span className="muted">{jobs.length} {jobs.length === 1 ? 'application' : 'applications'}</span>
         <button className="primary" onClick={() => setFormJob({})}>+ Add application</button>
       </div>

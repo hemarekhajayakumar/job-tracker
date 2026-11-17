@@ -138,6 +138,7 @@ label input, label select, label textarea { font-size: 15px; font-weight: 400; c
   flex-wrap: wrap;
 }
 .toolbar .search { flex: 1; min-width: 200px; max-width: 360px; }
+.toolbar .status-filter{ width: auto; }
 .toolbar .primary { margin-left: auto; }
 
 .board {
