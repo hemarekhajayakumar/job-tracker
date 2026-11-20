@@ -37,6 +37,19 @@ public class JobsController : ControllerBase
         return jobs.Select(ToResponse).ToList();
     }
 
+    [HttpGet("stats")]
+    public async Task<IActionResult> GetStats()
+    {
+        var stats = await _db.JobApplications
+            .Where(job => job.UserId == CurrentUserId)
+            .GroupBy(job => job.Status)
+            .Select(g => new {Status = g.Key , Count = g.Count() })
+            .ToListAsync();
+        
+        return Ok(stats);
+
+    }
+
     // POST /api/jobs  ->  add a new application
     [HttpPost]
     public async Task<ActionResult<JobResponse>> Create(JobRequest request)
